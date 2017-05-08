@@ -1,0 +1,4 @@
+comment = 'JSONB_STATISTIC'
+default_version = '1.0'
+module_pathname = '$libdir/jsonb_statistic'
+relocatable = false

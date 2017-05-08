@@ -1,0 +1,32 @@
+CREATE EXTENSION jsonb_statistic;
+SELECT jsonb_extract_key_paths('{"IP":"10.0.0.3","nested": { "Roles":"master" } }');
+ jsonb_extract_key_paths
+-------------------------
+ {->IP,->nested->Roles}
+(1 row)
+
+CREATE TABLE jsonb_test(x jsonb);
+INSERT INTO jsonb_test VALUES
+('{
+  "key": "value",
+  "key_1": {
+    "key_2": {
+      "key_3": "value"
+    }
+  }
+}'),
+('{
+  "key": "value",
+  "key_1": {
+    "key_2": "value"
+  }
+}');
+SELECT jsonb_extract_key_paths(x) FROM jsonb_test;
+                         jsonb_extract_key_paths
+-------------------------------------------------------------------------
+ {->IP,->nested->Roles,->key,->key_1->key_2->key_3}
+ {->IP,->nested->Roles,->key,->key_1->key_2->key_3,->key,->key_1->key_2}
+(2 rows)
+
+DROP TABLE jsonb_test;
+DROP EXTENSION jsonb_statistic;
