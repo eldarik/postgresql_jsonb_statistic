@@ -23,11 +23,11 @@ BEGIN
       IF jtype = 'object' THEN
         PERFORM process_jsonb(table_name, column_name, value, paths, '', key_path);
       ELSE
-        PERFORM update_statistics(
+        PERFORM update_statistic(
           table_name,
           column_name,
           key_path,
-          value,
+          value::text,
           jtype
         );
       END IF;

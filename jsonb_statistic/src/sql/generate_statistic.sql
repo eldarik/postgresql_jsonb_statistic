@@ -16,8 +16,6 @@ BEGIN
   LOOP
     tabname := tables_and_columns[i][1];
     colname := tables_and_columns[i][2];
-    RAISE NOTICE '%', tabname;
-    RAISE NOTICE '%', colname;
 
     IF (tabname IS NULL) OR (colname IS NULL) THEN
       RAISE NOTICE 'Invalid list of tables and columns!';
