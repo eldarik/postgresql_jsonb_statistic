@@ -1,5 +1,6 @@
-CREATE FUNCTION
-  extract_key_paths(
+CREATE FUNCTION process_jsonb(
+    table_name text,
+    column_name text,
     document jsonb,
     paths text[],
     key text,
@@ -13,16 +14,22 @@ BEGIN
   jtype := jsonb_typeof(document);
   IF jtype = 'object' THEN
     IF key = '' THEN
-      PERFORM extract_key_paths(document, paths, k, key_path || '->' || k) from (
+      PERFORM process_jsonb(table_name, column_name, document, paths, k, key_path || '->' || k) from (
         SELECT jsonb_object_keys(document) as k
       ) as keys;
     ELSE
       value := document -> key;
       jtype := jsonb_typeof(value);
       IF jtype = 'object' THEN
-        PERFORM extract_key_paths(value, paths, '', key_path);
+        PERFORM process_jsonb(table_name, column_name, value, paths, '', key_path);
       ELSE
-        INSERT INTO temporary_extract_key_paths VALUES (key_path::text, value::text);
+        PERFORM update_statistics(
+          table_name,
+          column_name,
+          key_path,
+          value,
+          jtype
+        );
       END IF;
     END IF;
   END IF;

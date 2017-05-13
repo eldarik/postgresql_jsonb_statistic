@@ -1,7 +1,5 @@
 CREATE EXTENSION jsonb_statistic;
 
-SELECT jsonb_extract_key_paths('{"IP":"10.0.0.3","nested": { "Roles":"master" } }');
-
 CREATE TABLE jsonb_test(x jsonb);
 
 INSERT INTO jsonb_test VALUES
@@ -20,7 +18,10 @@ INSERT INTO jsonb_test VALUES
   }
 }');
 
-SELECT jsonb_extract_key_paths(x) FROM jsonb_test;
+SELECT generate_statistic('{{"jsonb_test", "x"}}');
+
+SELECT * from jsonb_statistics;
 
 DROP TABLE jsonb_test;
+
 DROP EXTENSION jsonb_statistic;
