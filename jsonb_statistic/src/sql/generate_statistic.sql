@@ -28,6 +28,9 @@ BEGIN
       query || 'SELECT process_document("' || colname || '"::text, "' ||
                tabname || '"::text,' || colname || ') from ' || tabname || ';';
   END LOOP;
+  -- remove old statistic
+  DELETE from jsonb_statistics;
+  -- generate new
   EXECUTE query;
 END;
 $$ LANGUAGE plpgsql;
