@@ -25,8 +25,8 @@ BEGIN
       RAISE NOTICE 'Invalid column name %', tabname;
     END IF;
     query :=
-      query || 'SELECT process_document("' || colname || '"::text, "' ||
-               tabname || '"::text,' || colname || ') from ' || tabname || ';';
+      query || 'SELECT process_document(''' || tabname || ''', ''' ||
+               colname || ''',' || colname || ') from ' || tabname || ';';
   END LOOP;
   -- remove old statistic
   DELETE from jsonb_statistics;
