@@ -11,8 +11,8 @@ DECLARE
 BEGIN
   SELECT values_count INTO current_values_count
   FROM jsonb_statistics
-  WHERE table_name = tabname and
-        column_name = colname and
+  WHERE tablename = tabname and
+        attname = colname and
         key_path = k_path and
         value = val and
         value_type = valtype limit 1;
@@ -22,8 +22,8 @@ BEGIN
   ELSE
     UPDATE jsonb_statistics
     SET values_count = current_values_count + 1
-    WHERE table_name = tabname and
-          column_name = colname and
+    WHERE tablename = tabname and
+          attname = colname and
           key_path = k_path and
           value = val and
           value_type = valtype;

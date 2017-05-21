@@ -25,7 +25,7 @@ SELECT generate_statistic('{{"jsonb_test", "x"}}');
 (1 row)
 
 SELECT * from jsonb_statistics;
-                                             table_name                                              |                                                       column_name                                                       |       key_path        |  value  | value_type | values_count 
+                                              tablename                                              |                                                         attname                                                         |       key_path        |  value  | value_type | values_count 
 -----------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------+-----------------------+---------+------------+--------------
  {"key": "value", "key_1": {"key_2": {"key_4": false, "key_5": true, "key_6": 4.5, "key_7": 10000}}} | ("{""key"": ""value"", ""key_1"": {""key_2"": {""key_4"": false, ""key_5"": true, ""key_6"": 4.5, ""key_7"": 10000}}}") | ->key                 | "value" | string     |            1
  {"key": "value", "key_1": {"key_2": {"key_4": false, "key_5": true, "key_6": 4.5, "key_7": 10000}}} | ("{""key"": ""value"", ""key_1"": {""key_2"": {""key_4"": false, ""key_5"": true, ""key_6"": 4.5, ""key_7"": 10000}}}") | ->key_1->key_2->key_4 | false   | boolean    |            1

@@ -1,6 +1,6 @@
 CREATE FUNCTION process_jsonb(
-    table_name text,
-    column_name text,
+    tablename text,
+    attname text,
     document jsonb,
     paths text[],
     key text,
@@ -14,18 +14,18 @@ BEGIN
   jtype := jsonb_typeof(document);
   IF jtype = 'object' THEN
     IF key = '' THEN
-      PERFORM process_jsonb(table_name, column_name, document, paths, k, key_path || '->' || k) from (
+      PERFORM process_jsonb(tablename, attname, document, paths, k, key_path || '->' || k) from (
         SELECT jsonb_object_keys(document) as k
       ) as keys;
     ELSE
       value := document -> key;
       jtype := jsonb_typeof(value);
       IF jtype = 'object' THEN
-        PERFORM process_jsonb(table_name, column_name, value, paths, '', key_path);
+        PERFORM process_jsonb(tablename, attname, value, paths, '', key_path);
       ELSE
         PERFORM update_statistic(
-          table_name,
-          column_name,
+          tablename,
+          attname,
           key_path,
           value::text,
           jtype

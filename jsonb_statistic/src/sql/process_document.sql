@@ -1,10 +1,10 @@
 CREATE FUNCTION process_document(
-    table_name text,
-    column_name text,
+    tablename text,
+    attname text,
     document jsonb
   )
   RETURNS VOID AS $$
 BEGIN
-  PERFORM process_jsonb(table_name, column_name, document, '{}'::text[], '', '');
+  PERFORM process_jsonb(tablename, attname, document, '{}'::text[], '', '');
 END;
 $$ LANGUAGE plpgsql;
