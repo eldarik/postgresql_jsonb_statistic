@@ -25,16 +25,15 @@ SELECT generate_statistic('{{"jsonb_test", "x"}}');
 (1 row)
 
 SELECT * from jsonb_statistics;
-                                              tablename                                              |                                                         attname                                                         |       key_path        |  value  | value_type | values_count 
------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------+-----------------------+---------+------------+--------------
- {"key": "value", "key_1": {"key_2": {"key_4": false, "key_5": true, "key_6": 4.5, "key_7": 10000}}} | ("{""key"": ""value"", ""key_1"": {""key_2"": {""key_4"": false, ""key_5"": true, ""key_6"": 4.5, ""key_7"": 10000}}}") | ->key                 | "value" | string     |            1
- {"key": "value", "key_1": {"key_2": {"key_4": false, "key_5": true, "key_6": 4.5, "key_7": 10000}}} | ("{""key"": ""value"", ""key_1"": {""key_2"": {""key_4"": false, ""key_5"": true, ""key_6"": 4.5, ""key_7"": 10000}}}") | ->key_1->key_2->key_4 | false   | boolean    |            1
- {"key": "value", "key_1": {"key_2": {"key_4": false, "key_5": true, "key_6": 4.5, "key_7": 10000}}} | ("{""key"": ""value"", ""key_1"": {""key_2"": {""key_4"": false, ""key_5"": true, ""key_6"": 4.5, ""key_7"": 10000}}}") | ->key_1->key_2->key_5 | true    | boolean    |            1
- {"key": "value", "key_1": {"key_2": {"key_4": false, "key_5": true, "key_6": 4.5, "key_7": 10000}}} | ("{""key"": ""value"", ""key_1"": {""key_2"": {""key_4"": false, ""key_5"": true, ""key_6"": 4.5, ""key_7"": 10000}}}") | ->key_1->key_2->key_6 | 4.5     | number     |            1
- {"key": "value", "key_1": {"key_2": {"key_4": false, "key_5": true, "key_6": 4.5, "key_7": 10000}}} | ("{""key"": ""value"", ""key_1"": {""key_2"": {""key_4"": false, ""key_5"": true, ""key_6"": 4.5, ""key_7"": 10000}}}") | ->key_1->key_2->key_7 | 10000   | number     |            1
- {"key": "value", "key_1": {"key_2": "value"}}                                                       | ("{""key"": ""value"", ""key_1"": {""key_2"": ""value""}}")                                                             | ->key                 | "value" | string     |            1
- {"key": "value", "key_1": {"key_2": "value"}}                                                       | ("{""key"": ""value"", ""key_1"": {""key_2"": ""value""}}")                                                             | ->key_1->key_2        | "value" | string     |            1
-(7 rows)
+ tablename  | attname |       key_path        |  value  | value_type | values_count 
+------------+---------+-----------------------+---------+------------+--------------
+ jsonb_test | x       | ->key_1->key_2->key_4 | false   | boolean    |            1
+ jsonb_test | x       | ->key_1->key_2->key_5 | true    | boolean    |            1
+ jsonb_test | x       | ->key_1->key_2->key_6 | 4.5     | number     |            1
+ jsonb_test | x       | ->key_1->key_2->key_7 | 10000   | number     |            1
+ jsonb_test | x       | ->key                 | "value" | string     |            2
+ jsonb_test | x       | ->key_1->key_2        | "value" | string     |            1
+(6 rows)
 
 DROP TABLE jsonb_test;
 DROP EXTENSION jsonb_statistic;
