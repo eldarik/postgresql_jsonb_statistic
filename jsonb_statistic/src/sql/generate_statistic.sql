@@ -26,10 +26,10 @@ BEGIN
     END IF;
     query :=
       query || 'SELECT process_document(''' || tabname || ''', ''' ||
-               colname || ''',' || colname || ') from ' || tabname || ';';
+               colname || ''',' || colname || ') FROM ' || tabname || ';';
   END LOOP;
   -- remove old statistic
-  DELETE from jsonb_statistics;
+  DELETE FROM jsonb_statistics;
   -- generate new
   EXECUTE query;
 END;
