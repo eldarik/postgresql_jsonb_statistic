@@ -1,0 +1,26 @@
+CREATE EXTENSION jsonb_statistic;
+SELECT update_statistic('tablename', 'attname', 'key_path', 'value', 'text');
+ update_statistic 
+------------------
+ 
+(1 row)
+
+SELECT * from jsonb_statistics;
+ tablename | attname | key_path | value | value_type | values_count 
+-----------+---------+----------+-------+------------+--------------
+ tablename | attname | key_path | value | text       |            1
+(1 row)
+
+SELECT update_statistic('tablename', 'attname', 'key_path', 'value', 'text');
+ update_statistic 
+------------------
+ 
+(1 row)
+
+SELECT * from jsonb_statistics;
+ tablename | attname | key_path | value | value_type | values_count 
+-----------+---------+----------+-------+------------+--------------
+ tablename | attname | key_path | value | text       |            2
+(1 row)
+
+DROP EXTENSION jsonb_statistic;

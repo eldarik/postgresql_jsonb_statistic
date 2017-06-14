@@ -1,0 +1,32 @@
+CREATE EXTENSION jsonb_statistic;
+SELECT process_document(
+         'tablename',
+         'attname',
+         '{
+           "key": "value",
+           "key_1": {
+             "key_2": {
+               "key_4": false,
+               "key_5": true,
+               "key_6": 4.5,
+               "key_7": 10000
+             }
+           }
+         }'
+      );
+ process_document 
+------------------
+ 
+(1 row)
+
+SELECT * from jsonb_statistics;
+ tablename | attname |      key_path      |  value  | value_type | values_count 
+-----------+---------+--------------------+---------+------------+--------------
+ tablename | attname | ,key               | "value" | string     |            1
+ tablename | attname | ,key_1,key_2,key_4 | false   | boolean    |            1
+ tablename | attname | ,key_1,key_2,key_5 | true    | boolean    |            1
+ tablename | attname | ,key_1,key_2,key_6 | 4.5     | number     |            1
+ tablename | attname | ,key_1,key_2,key_7 | 10000   | number     |            1
+(5 rows)
+
+DROP EXTENSION jsonb_statistic;

@@ -1,0 +1,58 @@
+CREATE EXTENSION jsonb_statistic;
+CREATE TABLE jsonb_test(x jsonb);
+CREATE TABLE jsonb_test_2(x jsonb);
+INSERT INTO jsonb_test VALUES
+('{
+  "key": "value",
+  "key_1": {
+    "key_2": {
+      "key_4": false,
+      "key_5": true,
+      "key_6": 4.5,
+      "key_7": 10000
+    }
+  }
+}'),
+('{
+  "key": "value",
+  "key_1": {
+    "key_2": "value"
+  }
+}');
+INSERT INTO jsonb_test_2 VALUES
+('{
+  "key": "value",
+  "key_1": {
+    "key_2": {
+      "key_4": false,
+      "key_5": true,
+      "key_6": 4.5,
+      "key_7": 10000
+    }
+  }
+}'),
+('{
+  "key": "value",
+  "key_1": {
+    "key_2": "value"
+  }
+}');
+SELECT generate_statistic_for_database();
+ generate_statistic_for_database 
+---------------------------------
+ 
+(1 row)
+
+SELECT * from jsonb_statistics;
+  tablename   | attname |      key_path      |  value  | value_type | values_count 
+--------------+---------+--------------------+---------+------------+--------------
+ jsonb_test_2 | x       | ,key_1,key_2,key_4 | false   | boolean    |            1
+ jsonb_test_2 | x       | ,key_1,key_2,key_5 | true    | boolean    |            1
+ jsonb_test_2 | x       | ,key_1,key_2,key_6 | 4.5     | number     |            1
+ jsonb_test_2 | x       | ,key_1,key_2,key_7 | 10000   | number     |            1
+ jsonb_test_2 | x       | ,key               | "value" | string     |            2
+ jsonb_test_2 | x       | ,key_1,key_2       | "value" | string     |            1
+(6 rows)
+
+DROP TABLE jsonb_test;
+DROP EXTENSION jsonb_statistic;

@@ -5,6 +5,6 @@ CREATE FUNCTION process_document(
   )
   RETURNS VOID AS $$
 BEGIN
-  PERFORM process_jsonb(tablename, attname, document, '{}'::text[], '', '');
+  PERFORM process_jsonb(tablename, attname, document, '', '');
 END;
 $$ LANGUAGE plpgsql;
